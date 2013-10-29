@@ -48,8 +48,11 @@ Bullet.prototype.velY = 1;
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
 
 Bullet.prototype.update = function (du) {
+	spatialManager.unregister(this);
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
+	if (this._isDeadNow) {
+		return entityManager.KILL_ME_NOW;
+	}
 
     this.lifeSpan -= du;
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
@@ -74,8 +77,7 @@ Bullet.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
     
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
-
+	spatialManager.register(this);
 };
 
 Bullet.prototype.getRadius = function () {
