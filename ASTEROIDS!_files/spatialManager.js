@@ -32,23 +32,19 @@ _entities : [],
 // PUBLIC METHODS
 
 getNewSpatialID : function() {
-
 	return this._nextSpatialID++;
-
 },
 
 register: function(entity) {
-	 var pos = entity.getPos();
-	 var spatialID = entity.getSpatialID();
-	 
-	 // TODO: YOUR STUFF HERE!
+	var pos = entity.getPos();
+	var spatialID = entity.getSpatialID();
+	
 	this._entities[spatialID] = entity;
 },
 
 unregister: function(entity) {
-	 var spatialID = entity.getSpatialID();
+	var spatialID = entity.getSpatialID();
 
-	 // TODO: YOUR STUFF HERE!
 	for (var c = 0; c < this._entities.length; c++) {
 		var ent = this._entities[c];
 		if (ent instanceof Entity) {
@@ -69,13 +65,16 @@ findEntityInRange: function(posX, posY, radius) {
 	
 	for (var c = 0; c < this._entities.length; c++) {
 		var ent = this._entities[c];
-		var pos = ent.getPos();
+		if (ent) {
+			var pos = ent.getPos();
+			
+			var dist = Math.sqrt(Math.pow(pos.posX - posX, 2) + Math.pow(pos.posY - posY, 2));
 
-		var dist = Math.sqrt(Math.pow(pos.posX - posX, 2) + Math.pow(pos.posY - posY, 2));
-		
-		if (dist <= radius) {
-			console.log('found entity:', ent);
-			return ent;
+			if (dist <= ent.getRadius()) {
+				console.log(dist);
+				console.log('found entity:', ent);
+				return ent;
+			}
 		}
 	}
 
